@@ -1,0 +1,125 @@
+<display>
+
+  <property name='Aggregator.Sorted Input'                              value='value'    />
+                                                                        
+  <property name='Filter.Filter condition'                              value='value'    />
+                                                                        
+  <property name='Joiner.Join Condition'                                value='value'    />
+  <property name='Joiner.Join type'                                     value='value'    />
+  <property name='Joiner.Sorted Input'                                  value='value'    />
+                                                                        
+  <property name='Lookup Procedure.Lookup Sql Override'                 value='exists' />
+  <property name='Lookup Procedure.Lookup Source Filter'                value='exists' />
+  <property name='Lookup Procedure.Lookup policy on multiple match'     value='value'    />
+  <property name='Lookup Procedure.Dynamic Lookup Cache'                value='value'    />
+  <property name='Lookup Procedure.Lookup condition'                    value='value'    />
+
+  <property name='Sequence.start value'                                 value='value'    />
+  <property name='Sequence.Increment By'                                value='value'    />
+  <property name='Sequence.End value'                                   value='value'    />
+  <property name='Sequence.Cycle'                                       value='value'    />
+  <property name='Sequence.Number of Cached Values'                     value='value'    />
+  <property name='Sequence.Reset'                                       value='value'    />
+  <property name='Sequence.Is Current Value Shared'                     value='value'    />
+                                                                        
+  <property name='Sorter.Case Sensitive'                                value='value'    />
+  <property name='Sorter.Distinct'                                      value='value'    />
+                                                                        
+  <property name='Source Qualifier.Sql Query'                           value='exists' />
+  <property name='Source Qualifier.User Defined Join'                   value='exists' />
+  <property name='Source Qualifier.Source Filter'                       value='exists' />
+  <property name='Source Qualifier.Number Of Sorted Ports'              value='0'      />
+  <property name='Source Qualifier.Select Distinct'                     value='NO'     />
+  <property name='Source Qualifier.Pre SQL'                             value='exists' />
+  <property name='Source Qualifier.Post SQL'                            value='exists' />
+
+  <property name='Application Source Qualifier.Filter'                 value='exists' />
+  <property name='Application Source Qualifier.Join Override'          value='exists' />
+  <property name='Application Source Qualifier.Extract Override'       value='exists' />
+  <property name='Application Source Qualifier.Number Of Sorted Ports' value='0'      />
+  <property name='Application Source Qualifier.Select Distinct'        value='NO'     />
+
+  <property name='Stored Procedure.Stored Procedure Name'              value='value'    />
+  <property name='Stored Procedure.Stored Procedure Type'              value='value'    />
+                                                                       
+  <property name='Update Strategy.Update Strategy Expression'          value='value'    />
+
+  <property name='Session.@IsValid'                                    value='YES'   />
+  <property name='Session.@Reusable'                                   value='YES'   />
+  <property name='Session.@SortOrder'                                  value='Binary' />
+
+  <property name='Session.General Options'                                  value=''                                />
+  <property name='Session.Write Backward Compatible Session Log File'       value='NO'                              />
+  <property name='Session.Session Log File Name'                            value='value'                           />
+  <property name='Session.Session Log File directory'                       value='\$PMSessionLogDir\\'             />
+  <property name='Session.Parameter Filename'                               value='value'                           />
+  <property name='Session.Enable Test Load'                                 value='NO'                              />
+  <property name='Session.$Source connection value'                         value=''                                />
+  <property name='Session.$Target connection value'                         value=''                                />
+  <property name='Session.Treat source rows as'                             value='Insert'                          />
+  <property name='Session.Commit Type'                                      value='Target'                          />
+  <property name='Session.Commit Interval'                                  value='10000'                           />
+  <property name='Session.Commit On End Of File'                            value='YES'                             />
+  <property name='Session.Rollback Transactions on Errors'                  value='NO'                              />
+  <property name='Session.Recovery Strategy'                                value='Fail task and continue workflow' />
+  <property name='Session.Java Classpath'                                   value=''                                />
+  <property name='Session.Performance'                                      value=''                                />
+  <property name='Session.DTM buffer size'                                  value='Auto'                            />
+  <property name='Session.Collect performance data'                         value='NO'                              />
+  <property name='Session.Write performance data to repository'             value='NO'                              />
+  <property name='Session.Incremental Aggregation'                          value='NO'                              />
+  <property name='Session.Enable high precision'                            value='NO'                              />
+  <property name='Session.Session retry on deadlock'                        value='NO'                              />
+  <property name='Session.Pushdown Optimization'                            value='None'                            />
+  <property name='Session.Allow Temporary View for Pushdown'                value='NO'                              />
+  <property name='Session.Allow Temporary Sequence for Pushdown'            value='NO'                              />
+  <property name='Session.Allow Pushdown for User Incompatible Connections' value='NO'                              />
+
+  
+  <property name='SessionExtension.Target load type'                   value='value' />
+  <property name='SessionExtension.Insert'                             value='YES'   />
+  <property name='SessionExtension.Update as Update'                   value='YES'   />
+  <property name='SessionExtension.Update as Insert'                   value='NO'    />
+  <property name='SessionExtension.Update else Insert'                 value='NO'    />
+  <property name='SessionExtension.Delete'                             value='YES'   />
+  <property name='SessionExtension.Truncate target table option'       value='value' />
+  <property name='x SessionExtension.Reject file directory'            value=''    />
+  <property name='x SessionExtension.Reject filename'                  value=''    />
+
+  <property name='ConfigReference.Stop on errors'                      value='value' />
+  <property name='ConfigReference.Number of Partitions'                value='value' />
+
+  <property name='Task.Command.Fail task if any command fails'         value='value' />
+  <property name='Task.Command.Recovery Strategy'                      value='value' />
+
+  <property name='Task.Decision.Decision Name'                         value='value' />
+
+  <property name='Task.Email.Email User Name'                          value='value' />
+  <property name='Task.Email.Email Subject'                            value='value' />
+  <property name='Task.Email.Email Text'                               value='value' />
+
+  <property name='Task.Event Wait.User Defined Event'                  value='value' />
+  <property name='Task.Event Wait.Event Name'                          value='value' />
+  <property name='Task.Event Wait.Enable Past Events'                  value='value' />
+  <property name='Task.Event Wait.Filewatch name'                      value='value' />
+  <property name='Task.Event Wait.Delete Filewatch file'               value='value' />
+
+  <property name='Task.Event Raise.User Defined Event'                 value='value' />
+
+  <property name='Task.Timer.Variable'                                 value='value' />
+
+  <property name='Task.Assignment.Assignment Condition'                value='value' />
+        
+  <property name='Task.Control.Control Option'                         value='value' />
+
+
+
+
+  <!-- ==================================================================== -->
+  <!-- Task Instance Attributes-->
+  <!-- ==================================================================== -->
+  <property name='TaskInstance.@FAIL_PARENT_IF_INSTANCE_DID_NOT_RUN'   value='value'/>
+  <property name='TaskInstance.@FAIL_PARENT_IF_INSTANCE_FAILS'         value='value'/>
+  <!-- <property name='TaskInstance.@ISENABLED'                             value='value'/> -->
+
+</display>

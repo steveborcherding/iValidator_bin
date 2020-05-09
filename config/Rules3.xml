@@ -1,0 +1,818 @@
+<rules>
+
+  <!-- ======================================================================= -->
+  <!-- SHORTCUT (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Shortcut'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='^Shortcut_to_'          level='error' 
+               msg='shortcut name should begin with: Shortcut_to_' />
+    
+    <attribute path='@NAME' value='{{@REFOBJECTNAME}}$'    level='warn'  
+               msg='shortcut name ({{@NAME}}) should match underlying shared object name ({{@REFOBJECTNAME}})' />
+  
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- SOURCE (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Source'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='not:i:^shortcut_'          level='error'
+               msg='Non-shortcut Source name should NOT begin with: Shortcut_' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TARGET (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Target'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='not:i:^shortcut_'          level='error'
+               msg='Non-shortcut Target name should NOT begin with: Shortcut_' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- INSTANCE (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Instance'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='^{{@TRANSFORMATION_NAME}}\w*' level='warn' 
+               msg='instance name ({{@NAME}}) should begin with underlying object name ({{@TRANSFORMATION_NAME}})' />
+
+    <!-- instance overrides -->
+    <attribute path="TABLEATTRIBUTE/@NAME" value='{!EXISTS}'   level='warn' msg='Property Override: {{@NAME}} = {{@VALUE}}' />
+
+    <!-- custom -->
+    <custom name='shortcut_non_dm_sources' level='warn' />
+    <custom name='shortcut_non_dm_targets' level='warn' />
+
+    <!-- TODO - something other than value for instance transform subtypes -->
+    <custom name='unconnected_input'  value='Aggregator'           level='warn' />
+    <custom name='unconnected_output' value='Aggregator'           level='warn' />
+    <custom name='unconnected_input'  value='Expression'           level='warn' />
+    <custom name='unconnected_output' value='Expression'           level='warn' />
+    <custom name='unconnected_input'  value='Filter'               level='warn' />
+    <custom name='unconnected_input'  value='Joiner'               level='warn' />
+    <custom name='unconnected_output' value='Joiner'               level='warn' />
+    <custom name='unconnected_input'  value='Lookup Procedure'     level='warn' />
+    <custom name='unconnected_output' value='Lookup Procedure'     level='warn' />
+    <custom name='unconnected_input'  value='Router'               level='warn' />
+    <custom name='unconnected_input'  value='Sorter'               level='warn' />
+    <custom name='unconnected_input'  value='Source Qualifier'     level='warn' />
+    <custom name='unconnected_output' value='Source Qualifier'     level='warn' />
+    <custom name='unconnected_input'  value='Stored Procedure'     level='warn' />
+    <custom name='unconnected_output' value='Stored Procedure'     level='warn' />
+    <custom name='unconnected_input'  value='Union Transformation' level='warn' />
+    <custom name='unconnected_output' value='Union Transformation' level='warn' />
+    <custom name='unconnected_input'  value='Update Strategy'      level='warn' />
+    <!-- 
+    <custom name='unconnected_output' value='Update Strategy'      level='info' /> 
+    -->
+    
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- MAPPING (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Mapping'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'    value='^m_' level='error' msg='mapping name should begin with: m_' />
+    <attribute path='@ISVALID' value='YES' level='error' msg='mapping is marked as invalid' />
+
+    <!-- custom -->
+    <custom name='connection_datatypes' level='info' />
+    
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- MAPPLET (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Mapplet'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'    value='^mplt_'            level='error' msg='mapplet name should begin with: mplt_' />
+    <attribute path='@NAME'    value='not:i:^shortcut_'  level='error' msg='Non-shortcut Mapplet name should NOT begin with: Shortcut_' />
+    <attribute path='@ISVALID' value='YES'               level='error' msg='mapplet is marked as invalid' />
+
+    <!-- custom -->
+    <custom name='connection_datatypes' level='info' />
+    
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.MAPPLET INPUT/OUTPUT TRANSFORMATIONS (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Input Transformation'>
+     <attribute path='@NAME'    value='.' level='info' msg='dummy rule for mapplet input transformation' />
+  </object>
+  
+  <object type='Transformation' subtype='Output Transformation'>
+     <attribute path='@NAME'    value='.' level='info' msg='dummy rule for mapplet output transformation' />
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- ALL TRANSFORMATIONS (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation'>
+    <attribute path='@NAME' value='not:i:^shortcut_' level='error' msg='Non-shortcut Transformation name should NOT begin with: Shortcut_' />
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.AGGREGATOR (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Aggregator'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^agg_' level='error' msg='Transformation name should begin with: agg_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Cache Directory'            ]/@VALUE" value='\$PMCacheDir' level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'              ]/@VALUE" value='Normal'       level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Sorted Input'               ]/@VALUE" value='YES'          level='warn'  /> <!-- DEFAULT IS NO-->
+    <attribute path="TABLEATTRIBUTE[@NAME='Aggregator Data Cache Size' ]/@VALUE" value='Auto'         level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Aggregator Index Cache Size']/@VALUE" value='Auto'         level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Transformation Scope'       ]/@VALUE" value='All Input'    level='info'  />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT'         ]/@NAME" value='_in$'                   level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _in'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='OUTPUT'        ]/@NAME" value='_out$'                  level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _out'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='LOCAL VARIABLE']/@NAME" value='_var$'                  level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _var'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT'  ]/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+    <attribute path="TRANSFORMFIELD/@EXPRESSION"                       value='not:.*\t.*'             level='warn' msg='{{@NAME}} expression should not contain tab characters'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.APP MULTI-GROUP SOURCE QUALIFIER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='App Multi-Group Source Qualifier'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='^AMGDSQ_' level='error' msg='transformation name should begin with: AMGDSQ_' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'          ]/@VALUE" value='Normal' level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Output Is Deterministic']/@VALUE" value='YES'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Output Is Ordered'      ]/@VALUE" value='YES'    level='info' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.EXPRESSION (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Expression'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^exp_' level='error' msg='Transformation name should begin with: exp_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level']/@VALUE" value='Normal' level='error' />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT'         ]/@NAME" value='_in$'                   level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _in'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='OUTPUT'        ]/@NAME" value='_out$'                  level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _out'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='LOCAL VARIABLE']/@NAME" value='_var$'                  level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _var'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT'  ]/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+    <attribute path="TRANSFORMFIELD/@EXPRESSION"                       value='not:.*\t.*'             level='warn' msg='{{@NAME}} expression should not contain tab characters'/>
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.FILTER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Filter'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^fil_' level='error' msg='Transformation name should begin with: fil_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Filter Condition']/@VALUE" value='\w+'         level='error' />   <!-- DEFAULT IS TRUE-->
+    <attribute path="TABLEATTRIBUTE[@NAME='Filter Condition']/@VALUE" value='not:.*\t.*'  level='warn' msg='Filter condition should not contain tab characters' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'   ]/@VALUE" value='Normal'      level='error' />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.JOINER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Joiner'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^jnr_' level='error' msg='Transformation name should begin with: jnr_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Case Sensitive String Comparison']/@VALUE" value='YES'                   level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Cache Directory'                 ]/@VALUE" value='\$PMCacheDir'          level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Join Condition'                  ]/@VALUE" value='\w+'                   level='error' /> <!-- DEFAULT IS 'NOT SET' -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Join type'                       ]/@VALUE" value='\w+'                   level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Null ordering in master'         ]/@VALUE" value='Null Is Highest Value' level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Null ordering in detail'         ]/@VALUE" value='Null Is Highest Value' level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'                   ]/@VALUE" value='Normal'                level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Joiner Data Cache Size'          ]/@VALUE" value='Auto'                  level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Joiner Index Cache Size'         ]/@VALUE" value='Auto'                  level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Sorted Input'                    ]/@VALUE" value='NO'                    level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Master Sort Order'               ]/@VALUE" value='Auto'                  level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Transformation Scope'            ]/@VALUE" value='All Input'             level='info'  />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT'              ]/@NAME" value='_in$'                   level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _in'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/MASTER'       ]/@NAME" value='_in$'                   level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _in'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT'       ]/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT/MASTER']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+    <attribute path="TRANSFORMFIELD/@EXPRESSION"                            value='not:.*\t.*'             level='warn' msg='{{@NAME}} expression should not contain tab characters'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.LOOKUP PROCEDURE (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Lookup Procedure'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^lkp_' level='error' msg='Transformation name should begin with: lkp_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup Sql Override'             ]/@VALUE" value=''                      level='info' /> 
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup table name'               ]/@VALUE" value='\w+'                   level='warn' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup Source Filter'            ]/@VALUE" value=''                      level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup caching enabled'          ]/@VALUE" value='YES'                   level='warn' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup policy on multiple match' ]/@VALUE" value='Report Error'          level='info' /> <!-- DEFAULT is 'Use Any Value' -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup condition'                ]/@VALUE" value='\w+'                   level='warn' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Connection Information'          ]/@VALUE" value='\w+'                   level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Source Type'                     ]/@VALUE" value='\w+'                   level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Recache if Stale'                ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'                   ]/@VALUE" value='Normal'                level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup cache directory name'     ]/@VALUE" value='\$PMCacheDir'          level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup cache initialize'         ]/@VALUE" value='NO'                    level='info' /> <!-- Removed in 9.1 ? -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup cache persistent'         ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup Data Cache Size'          ]/@VALUE" value='Auto'                  level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup Index Cache Size'         ]/@VALUE" value='Auto'                  level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Dynamic Lookup Cache'            ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Synchronize Dynamic Cache'       ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Output Old Value On Update'      ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Update Dynamic Cache Condition'  ]/@VALUE" value='\w+'                   level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Cache File Name Prefix'          ]/@VALUE" value=''                      level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Re-cache from lookup source'     ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Insert Else Update'              ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Update Else Insert'              ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Datetime Format'                 ]/@VALUE" value=''                      level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Thousand Separator'              ]/@VALUE" value='None'                  level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Decimal Separator'               ]/@VALUE" value='\.'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Case Sensitive String Comparison']/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Null ordering'                   ]/@VALUE" value='Null Is Highest Value' level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Sorted Input'                    ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Lookup source is static'         ]/@VALUE" value='NO'                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Pre-build lookup cache'          ]/@VALUE" value='Auto'                  level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Subsecond Precision'             ]/@VALUE" value='0|6'                   level='info' />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT'       ]/@NAME" value='_in$'                   level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should end with: _in'/>
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.NORMALIZER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Normalizer'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^nrm_' level='error' msg='Transformation name should begin with: nrm_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level']/@VALUE" value='Normal' level='error' />
+
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.ROUTER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Router'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^rtr_' level='error' msg='Transformation name should begin with: rtr_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level']/@VALUE" value='Normal' level='error' />
+
+    <!-- groups -->
+    <attribute path="GROUP/@EXPRESSION" value='not:.*\t.*' level='warn' msg='{{@NAME}} group expression should not contain tab characters'/>
+
+    <!-- ports - router input ports should not inherit upstream port type suffixes -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='Router {{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.SEQUENCE (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Sequence'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^seq_' level='error' msg='Transformation name should begin with: seq_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'          ]/@VALUE" value='Normal' level='error'/>
+    <attribute path="TABLEATTRIBUTE[@NAME='start value'            ]/@VALUE" value='\d+'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Increment By'           ]/@VALUE" value='\d+'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='End value'              ]/@VALUE" value='\d+'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Current value'          ]/@VALUE" value='\d+'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Cycle'                  ]/@VALUE" value='NO'     level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Number of Cached Values']/@VALUE" value='\d+'    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Reset'                  ]/@VALUE" value='NO'     level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Is Current Value Shared']/@VALUE" value='NO'     level='info' /> <!-- Removed in 9.1 ? -->
+
+    <!-- NO PORT NAMING RULES FOR SEQUENCE GENERATOR -->
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.SORTER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Sorter'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^srt_' level='error' msg='Transformation name should begin with: srt_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Sorter Cache Size'   ]/@VALUE" value='Auto'                                    level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Case Sensitive'      ]/@VALUE" value='YES'                                     level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Work Directory'      ]/@VALUE" value='\$PMTempDir'                             level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Distinct'            ]/@VALUE" value='NO'                                      level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'       ]/@VALUE" value='Normal'                                  level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Null Treated Low'    ]/@VALUE" value='NO'                                      level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Merge Only'          ]/@VALUE" value='NO'                                      level='info' />  <!-- Removed in 9.1 ? -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Partitioning'        ]/@VALUE" value='Order records for individual partitions' level='info' />  <!-- Removed in 9.1 ? -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Transformation Scope']/@VALUE" value='All Input'                               level='info' />
+
+    <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.SOURCE QUALIFIER (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Source Qualifier'>
+
+    <!-- attributes -->
+    <attribute path='@NAME' value='^SQ_' level='error' msg='Transformation name should begin with: SQ_' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'          ]/@VALUE" value='Normal'     level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Sql Query'              ]/@VALUE" value=''           level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Sql Query'              ]/@VALUE" value='not:.*\t.*' level='warn' msg='Sql Query should not contain tab characters' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='User Defined Join'      ]/@VALUE" value=''           level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='User Defined Join'      ]/@VALUE" value='not:.*\t.*' level='warn' msg='User Defined Join should not contain tab characters' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='Source Filter'          ]/@VALUE" value=''           level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Source Filter'          ]/@VALUE" value='not:.*\t.*' level='warn' msg='Source Filter should not contain tab characters' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='Number Of Sorted Ports' ]/@VALUE" value='0'          level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Select Distinct'        ]/@VALUE" value='NO'         level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Is Partitionable'       ]/@VALUE" value='NO'         level='info' /> <!-- Removed in 9.1 ? -->
+    
+    <attribute path="TABLEATTRIBUTE[@NAME='Pre SQL'                ]/@VALUE" value=''           level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Pre SQL'                ]/@VALUE" value='not:.*\t.*' level='warn' msg='Pre SQL should not contain tab characters' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='Post SQL'               ]/@VALUE" value=''           level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Post SQL'               ]/@VALUE" value='not:.*\t.*' level='warn' msg='Post SQL should not contain tab characters' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='Output is deterministic']/@VALUE" value='NO'         level='info' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Output is repeatable'   ]/@VALUE" value='Never'      level='info' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.STORED PROCEDURE (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Stored Procedure'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^sp_' level='error' msg='Transformation name should begin with: sp_' />
+    <attribute path='@DESCRIPTION' value='\w+'  level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'        ]/@VALUE" value='Normal' level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Stored Procedure Type']/@VALUE" value='Normal' level='error' />
+
+    <!-- 
+    Stored Procedure Name
+    Connection Information
+    Call Text
+    Execution Order
+    Subsecond Precision
+    Output is Repeatable
+    Output is Deterministic
+    --> 
+    
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.UNION TRANSFORMATION (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Union Transformation'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^un_' level='error' msg='Transformation name should begin with: un_' />
+    <attribute path='@DESCRIPTION' value='\w+'  level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level']/@VALUE" value='Normal' level='error' />
+
+    <!--
+    Note other union properties are not listed
+    -->
+    
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.UPDATE STRATEGY (9.1 Reviewed) -->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='Update Strategy'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^upd_' level='error' msg='Transformation name should begin with: upd_' />
+    <attribute path='@DESCRIPTION' value='\w+'  level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Update Strategy Expression']/@VALUE" 
+               value='i:dd_update|dd_insert|dd_delete|dd_reject' 
+               level='error' 
+               msg='Update Strategy Expression should use DD_UPDATE, DD_INSERT, DD_DELETE, or DD_REJECT constants' />
+
+    <attribute path="TABLEATTRIBUTE[@NAME='Forward Rejected Rows'     ]/@VALUE" value='YES'         level='info'  />
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level'             ]/@VALUE" value='Normal'      level='error' />
+    <attribute path="TABLEATTRIBUTE[@NAME='Update Strategy Expression']/@VALUE" value='not:.*\t.*'  level='warn' msg='Update strategy expression should not contain tab characters' />
+
+      <!-- ports -->
+    <attribute path="TRANSFORMFIELD[@PORTTYPE='INPUT/OUTPUT']/@NAME" value='not:(_in$|_out$|_var$)' level='warn' msg='{{@PORTTYPE}} port name ({{@NAME}}) should not end with: _in, _out, or _var'/>
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TRANSFORMATION.XML PARSER TRANSFORMATION-->
+  <!-- ======================================================================= -->
+  <object type='Transformation' subtype='XML PARSER'>
+    
+    <!-- attributes -->
+    <attribute path='@NAME'        value='^xmp_' level='error' msg='Transformation name should begin with: xmp_' />
+    <attribute path='@DESCRIPTION' value='\w+'   level='info'  msg='Missing transformation description' />
+
+    <!-- properties -->
+    <attribute path="TABLEATTRIBUTE[@NAME='Tracing Level']/@VALUE" value='Normal' level='error' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- SESSION -->
+  <!-- ======================================================================= -->
+  <object type='Session'>
+
+    <!-- ~~~~~~~~~~~~~~~~~~ -->
+    <!-- session attributes -->
+    <!-- ~~~~~~~~~~~~~~~~~~ -->
+    <attribute path='@NAME'     value='^s_m_'                  level='error' msg='Session name should begin with: s_m_' />
+    <attribute path='@NAME'     value='^s_{{@MAPPINGNAME}}\w*' level='warn'  msg='Session name does not match mapping name' />
+    <attribute path='@ISVALID'  value='YES'                    level='error' msg='Session is marked as invalid' />
+    <attribute path='@REUSABLE' value='YES'                    level='error' msg='Session is not reusable' />
+
+    <!-- ~~~~~~~~~~~~~~~~~~ -->
+    <!-- session properties -->
+    <!-- ~~~~~~~~~~~~~~~~~~ -->
+    <attribute path="ATTRIBUTE[@NAME='General Options'                                 ]/@VALUE" value=''                                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Write Backward Compatible Session Log File'      ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Session Log File Name'                           ]/@VALUE" value='^{{../@NAME}}\.log'              level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Session Log File directory'                      ]/@VALUE" value='^\$PMSessionLogDir\\$'           level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Parameter Filename'                              ]/@VALUE" value='\w+'                             level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Enable Test Load'                                ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='$Source connection value'                        ]/@VALUE" value=''                                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='$Target connection value'                        ]/@VALUE" value=''                                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Treat source rows as'                            ]/@VALUE" value='Data driven|Insert'              level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Commit Type'                                     ]/@VALUE" value='Target'                          level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Commit Interval'                                 ]/@VALUE" value='10000'                           level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Commit On End Of File'                           ]/@VALUE" value='YES'                             level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Rollback Transactions on Errors'                 ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Recovery Strategy'                               ]/@VALUE" value='Fail task and continue workflow' level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Java Classpath'                                  ]/@VALUE" value=''                                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Performance'                                     ]/@VALUE" value=''                                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='DTM buffer size'                                 ]/@VALUE" value='Auto'                            level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Collect performance data'                        ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Write performance data to repository'            ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Incremental Aggregation'                         ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Enable high precision'                           ]/@VALUE" value='NO'                              level='info'  />
+    <attribute path="ATTRIBUTE[@NAME='Session retry on deadlock'                       ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Pushdown Optimization'                           ]/@VALUE" value='None'                            level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Allow Temporary View for Pushdown'               ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Allow Temporary Sequence for Pushdown'           ]/@VALUE" value='NO'                              level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Allow Pushdown for User Incompatible Connections']/@VALUE" value='NO'                              level='warn'  />
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- relational session extension connection references -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- Parameterized Connections -->
+    <attribute path="SESSIONEXTENSION/CONNECTIONREFERENCE[@CONNECTIONTYPE='Relational']/@VARIABLE" 
+               value='^\$DBConnection_\w+|^\$Source$|^\$Target$' 
+               level='error' 
+               msg='{{@CONNECTIONTYPE}} {{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}} connection is not parameterized'/>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- relational writer session extension properties -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    <!-- Insert = 'YES' -->
+    <attribute path="SESSIONEXTENSION[@SUBTYPE='Relational Writer']/ATTRIBUTE[@NAME='Insert']/@VALUE"
+       value='YES'
+       level='error'
+       msg="{{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = '{{@VALUE}}' is not equal to rule: 'YES'"/>
+
+    <!-- Update as Update = 'YES' -->
+    <attribute path="SESSIONEXTENSION[@SUBTYPE='Relational Writer']/ATTRIBUTE[@NAME='Update as Update']/@VALUE"
+       value='YES'
+       level='error'
+       msg="{{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = '{{@VALUE}}' is not equal to rule: 'YES'"/>
+
+    <!-- Update else Insert = 'NO' -->
+    <attribute path="SESSIONEXTENSION[@SUBTYPE='Relational Writer']/ATTRIBUTE[@NAME='Update else Insert']/@VALUE"
+       value='NO'
+       level='error'
+       msg="{{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = '{{@VALUE}}' is not equal to rule: 'NO'"/>
+
+    <!-- Delete = 'YES' -->
+    <attribute path="SESSIONEXTENSION[@SUBTYPE='Relational Writer']/ATTRIBUTE[@NAME='Delete']/@VALUE"
+       value='YES'
+       level='error'
+       msg="{{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = '{{@VALUE}}' is not equal to rule: 'YES'"/>
+
+    <!-- Reject file directory = '$PMBadFileDir\' -->
+    <attribute path="SESSIONEXTENSION[@SUBTYPE='Relational Writer']/ATTRIBUTE[@NAME='Reject file directory']/@VALUE"
+       value='^\$PMBadFileDir\\$'
+       level='error'
+       msg="{{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = '{{@VALUE}}' is not equal to rule: '$PMBadFileDir\'"/>
+
+    <!-- session config reference -->
+
+
+	<attribute 
+		path="CONFIGREFERENCE/ATTRIBUTE/@NAME" 
+		value='{!EXISTS}' 
+		level='warn'
+		msg='Session Config Reference Property Override: {{@NAME}} = {{@VALUE}}' />
+
+	  <attribute 
+		  path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Stop on errors']/@VALUE" 
+		  value='1'                           
+		  level='warn' 
+		  msg='Session Config Reference Override [Stop on errors] is not set to 1'/>
+	  
+<!--
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Advanced'                          ]/@VALUE" value=''                            level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Constraint based load ordering'    ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Cache LOOKUP() function'           ]/@VALUE" value='YES'                         level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Default buffer block size'         ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Line Sequential buffer length'     ]/@VALUE" value='1024'                        level='warn' />
+    
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Maximum Memory Allowed For Auto Memory Attributes'                    ]/@VALUE" value='512MB' level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Maximum Percentage of Total Memory Allowed For Auto Memory Attributes']/@VALUE" value='5'     level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Additional Concurrent Pipelines for Lookup Cache Creation'            ]/@VALUE" value='Auto'  level='warn' />
+    
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Custom Properties'                 ]/@VALUE" value=''                            level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Pre-build lookup cache'            ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Optimization Level'                ]/@VALUE" value='Medium'                      level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='DateTime Format String'            ]/@VALUE" value='MM\/DD\/YYYY HH24:MI:SS\.US' level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Pre 85 Timestamp Compatibility'    ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Log Options'                       ]/@VALUE" value='0'                           level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Save session log by'               ]/@VALUE" value='Session runs'                level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Save session log for these runs'   ]/@VALUE" value='0'                           level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Error handling'                    ]/@VALUE" value=''                            level='warn' />
+                                                                                                                                       
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Stop on errors'                    ]/@VALUE" value='not:{EXISTS}'                level='warn' 
+    	         msg="'Stop on errors' value has been  been set to 1"/>
+    	         
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Stop on errors'                    ]/@VALUE" value='1'                           level='warn' />
+                                                                                                                                       
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Override tracing'                  ]/@VALUE" value='None'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='On Stored Procedure error'         ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='On Pre-session command task error' ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='On Pre-Post SQL error'             ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Enable Recovery'                   ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Error Log Type'                    ]/@VALUE" value='None'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Error Log Table Name Prefix'       ]/@VALUE" value=''                            level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Error Log File Name'               ]/@VALUE" value='PMError.log'                 level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Log Source Row Data'               ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Data Column Delimiter'             ]/@VALUE" value='\|'                          level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Partitioning Options'              ]/@VALUE" value=''                            level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Dynamic Partitioning'              ]/@VALUE" value='Disabled'                    level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Number of Partitions'              ]/@VALUE" value='1'                           level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Multiplication Factor'             ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Session on Grid'                   ]/@VALUE" value=''                            level='warn' />
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE[@NAME='Is Enabled'                        ]/@VALUE" value='NO'                          level='warn' />
+-->
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!-- ??? SESSIONCOMPONENT ? Pre-session command ... -->
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- CONFIG -->
+  <!-- ======================================================================= -->
+  <object type='Config'>
+
+    <!-- attributes -->
+    <attribute path='@ISDEFAULT' value='YES'  level='warn' msg='Config object is not DEFAULT config' />
+
+    <!-- properties -->
+    <attribute path="ATTRIBUTE[@NAME='Advanced'                                        ]/@VALUE" value=''                            level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Constraint based load ordering'                  ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Cache LOOKUP() function'                         ]/@VALUE" value='YES'                         level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Default buffer block size'                       ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Line Sequential buffer length'                   ]/@VALUE" value='1024'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Maximum Memory Allowed For Auto Memory Attributes'                    ]/@VALUE" value='512MB'  level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Maximum Percentage of Total Memory Allowed For Auto Memory Attributes']/@VALUE" value='5'      level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Additional Concurrent Pipelines for Lookup Cache Creation'            ]/@VALUE" value='Auto'   level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Custom Properties'                               ]/@VALUE" value=''                            level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Pre-build lookup cache'                          ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Optimization Level'                              ]/@VALUE" value='Medium'                      level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='DateTime Format String'                          ]/@VALUE" value='MM\/DD\/YYYY HH24:MI:SS\.US' level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Pre 85 Timestamp Compatibility'                  ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Log Options'                                     ]/@VALUE" value='0'                           level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Save session log by'                             ]/@VALUE" value='Session runs'                level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Save session log for these runs'                 ]/@VALUE" value='0'                           level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Error handling'                                  ]/@VALUE" value=''                            level='warn' />
+    
+	<attribute path="ATTRIBUTE[@NAME='Stop on errors'                                  ]/@VALUE" value='1'                           level='warn' 
+			   msg='Associated Session Config object does *not* have [Stop on errors] property set to 1'/>
+	  
+    <attribute path="ATTRIBUTE[@NAME='Override tracing'                                ]/@VALUE" value='None'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='On Stored Procedure error'                       ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='On Pre-session command task error'               ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='On Pre-Post SQL error'                           ]/@VALUE" value='Stop'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Enable Recovery'                                 ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Error Log Type'                                  ]/@VALUE" value='None'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Error Log Table Name Prefix'                     ]/@VALUE" value=''                            level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Error Log File Name'                             ]/@VALUE" value='PMError.log'                 level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Log Source Row Data'                             ]/@VALUE" value='NO'                          level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Data Column Delimiter'                           ]/@VALUE" value='\|'                          level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Partitioning Options'                            ]/@VALUE" value=''                            level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Dynamic Partitioning'                            ]/@VALUE" value='Disabled'                    level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Number of Partitions'                            ]/@VALUE" value='1'                           level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Multiplication Factor'                           ]/@VALUE" value='Auto'                        level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Session on Grid'                                 ]/@VALUE" value=''                            level='warn' />
+    <attribute path="ATTRIBUTE[@NAME='Is Enabled'                                      ]/@VALUE" value='NO'                          level='warn' />
+
+  </object>
+
+  <!-- ======================================================================= -->
+  <!-- TASKINSTANCE.ALL -->
+  <!-- ======================================================================= -->
+  <object type='TaskInstance' subtype='All'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'       value='^{{@TASKNAME}}\w*' level='warn' 
+    	         msg='Task Instance name ({{@NAME}}) should begin with underlying object name ({{@TASKNAME}})' />
+    	         
+    <attribute path='@ISENABLED'  value='YES'               level='warn' 
+    	         msg='Task Instance is not enabled' />
+
+    <!-- custom -->
+    <custom name='no_overrides' level='warn' />
+
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- TASKINSTANCE.SESSION -->
+  <!-- ======================================================================= -->
+  <object type='TaskInstance' subtype='Session'>
+
+    <!-- attributes -->
+    <attribute path='@REUSABLE'                            value='YES' level='error' msg='Session Instance is not reusable' />
+    <attribute path='@FAIL_PARENT_IF_INSTANCE_DID_NOT_RUN' value='NO'  level='warn'  msg='Session Instance fails workflow if not run' />
+    <attribute path='@FAIL_PARENT_IF_INSTANCE_FAILS'       value='YES' level='error' msg='Session Instance failure does not fail workflow' />
+
+    <!-- overrides -->
+    <attribute path="ATTRIBUTE/@NAME"                                  value='{!EXISTS}' level='error' 
+    	         msg='Session Property Override: {{@NAME}} = {{@VALUE}}' />
+    	
+    <attribute path="CONFIGREFERENCE/ATTRIBUTE/@NAME"                  value='{!EXISTS}' level='error' 
+    	         msg='Session Configuration Override: {{@NAME}} = {{@VALUE}}' />
+    	         
+    <attribute path="SESSIONEXTENSION/ATTRIBUTE/@NAME"                 value='{!EXISTS}' level='error' 
+    	         msg='Session Extension Override - {{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: {{@NAME}} = {{@VALUE}}' />
+    	         
+    <attribute path="SESSIONEXTENSION/CONNECTIONREFERENCE/@CNXREFNAME" value='{!EXISTS}' level='error' 
+    	         msg='Session Extension Override - {{../@TRANSFORMATIONTYPE}} {{../@SINSTANCENAME}}: Connection = {{@CONNECTIONNAME}}{{@VARIABLE}}' />
+
+    <!-- ??? SESSIONCOMPONENT ? Pre-session command ... -->
+    
+  </object>
+
+
+  <!-- ======================================================================= -->
+  <!-- WORKFLOW -->
+  <!-- ======================================================================= -->
+  <object type='Workflow'>
+
+    <!-- attributes -->
+    <attribute path='@NAME'      value='^wf_' level='error' msg='Workflow name should begin with: wf_' />
+    <attribute path='@ISVALID'   value='YES'  level='error' msg='Workflow is marked as invalid' />
+    <attribute path='@ISENABLED' value='YES'  level='error' msg='Workflow is disabled' />
+
+    <!-- properties -->
+    <attribute path="ATTRIBUTE[@NAME='Parameter Filename'                                ]/@VALUE" value=''                       level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Write Backward Compatible Workflow Log File'       ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Workflow Log File Name'                            ]/@VALUE" value='^{{../@NAME}}\.log'     level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Workflow Log File Directory'                       ]/@VALUE" value='^\$PMWorkflowLogDir\\$' level='error' />
+    <attribute path="ATTRIBUTE[@NAME='Save Workflow log by'                              ]/@VALUE" value='By runs'                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Save workflow log for these runs'                  ]/@VALUE" value='0'                      level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Service Name'                                      ]/@VALUE" value=''                       level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Service Timeout'                                   ]/@VALUE" value='0'                      level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Is Service Visible'                                ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Is Service Protected'                              ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Fail task after wait time'                         ]/@VALUE" value='0'                      level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Enable HA recovery'                                ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Automatically recover terminated tasks'            ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Service Level Name'                                ]/@VALUE" value='Default'                level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Allow concurrent run with unique run instance name']/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Allow concurrent run with same run instance name'  ]/@VALUE" value='NO'                     level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Maximum number of concurrent runs'                 ]/@VALUE" value='0'                      level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Assigned Web Services Hubs'                        ]/@VALUE" value=''                       level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Maximum number of concurrent runs per Hub'         ]/@VALUE" value='1000'                   level='warn'  />
+    <attribute path="ATTRIBUTE[@NAME='Expected Service Time'                             ]/@VALUE" value='1'                      level='warn'  />
+
+
+  </object>
+
+  
+  <!-- ======================================================================= -->
+  <!-- DATATYPES-->
+  <!-- ======================================================================= -->
+  <datatypes>
+
+    <aliases>
+
+      <alias name1='tinyint'        name2='integer'  />
+      <alias name1='smallint'       name2='integer'  />
+      <alias name1='small integer'  name2='integer'  />
+      <alias name1='bigint'         name2='integer'  />
+      <alias name1='int'            name2='integer'  />
+                                    
+      <alias name1='date/time'      name2='datetime' />
+      <alias name1='date time'      name2='datetime' />
+
+      <alias name1='char'           name2='string'   />
+      <alias name1='character'      name2='string'   />
+      <alias name1='nchar'          name2='string'   />
+      <alias name1='varchar'        name2='string'   />
+      <alias name1='nvarchar'       name2='string'   />
+      <alias name1='nstring'        name2='string'   />
+                                                     
+      <alias name1='number'         name2='decimal'  />
+      <alias name1='numeric'        name2='decimal'  />
+      <alias name1='packed'         name2='decimal'  />
+      <alias name1='upacked'        name2='decimal'  />
+      <alias name1='uzoned'         name2='decimal'  />
+                                    
+      <alias name1='real'           name2='float'    />
+      <alias name1='double'         name2='float'    />
+
+    </aliases>
+
+    <conversions>
+
+      <conversion type1='integer'  type2='decimal'  />
+      <conversion type1='decimal'  type2='integer'  />
+
+    </conversions>
+    
+  </datatypes>
+
+
+
+</rules>
